@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { Button } from "@/components/ui/button";
-import { githubDark } from "@uiw/codemirror-theme-github";
+import { githubLight } from "@uiw/codemirror-theme-github";
 
-export function CodeForm({ readOnly }: any) {
+export function CodeForm({ readOnly, content }: any) {
   const [value, setValue] = React.useState("console.log('hello world!');");
 
   const onChange = React.useCallback((val: any, viewUpdate: any) => {
@@ -36,18 +37,23 @@ export function CodeForm({ readOnly }: any) {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
-      <CodeMirror
-        value={value}
-        height="500px"
-        width="500px"
-        theme={githubDark}
-        basicSetup={{
-          foldGutter: false,
-        }}
-        extensions={[javascript({ jsx: true })]}
-        onChange={onChange}
-        readOnly={readOnly}
-      />
+      <Card>
+        <CodeMirror
+          className="text-md opacity-60 p-2"
+          value={value}
+          height="800px"
+          width="600px"
+          basicSetup={{
+            lineNumbers: false,
+            foldGutter: false,
+            rectangularSelection: false,
+          }}
+          extensions={[javascript({ jsx: true })]}
+          onChange={onChange}
+          theme={githubLight}
+          readOnly={readOnly}
+        />
+      </Card>
       <Button onClick={submitHandler}>Submit</Button>
     </div>
   );
