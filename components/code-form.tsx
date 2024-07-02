@@ -38,7 +38,7 @@ export function CodeForm({ readOnly, content }: any) {
         body: body,
       });
       const res = await req.json();
-      router.push(`http://localhost:3000/snip/${res.IpfsHash}`);
+      router.push(`/snip/${res.IpfsHash}`);
     } catch (error) {
       console.log(error);
       setLoading(false);
