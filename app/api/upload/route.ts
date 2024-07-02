@@ -1,4 +1,7 @@
+import dynamic from "next/dynamic";
 import { NextRequest, NextResponse } from "next/server";
+
+export const revalidate = 0;
 
 export async function POST(request: NextRequest) {
   try {
@@ -6,7 +9,8 @@ export async function POST(request: NextRequest) {
     console.log(body);
     const data = JSON.stringify({
       pinataContent: {
-        data: body.data,
+        content: body.content,
+        name: body.name,
       },
       pinataOptions: {
         cidVersion: 1,
