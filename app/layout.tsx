@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   title: "Snippets.so",
   description: "Minimal code snippets",
   icons: {
-    apple: "/favicon.png",
-    shortcut: "/favicon.png",
-    icon: "/favicon.png",
+    apple: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    icon: "/favicon.ico",
   },
   openGraph: {
     title: "Snippets.so",
