@@ -6,6 +6,10 @@
     @apply outline-none !important;
 }
 
+.cm-editor .cm-content {
+    @apply font-commitMono text-sm;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;

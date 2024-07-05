@@ -5,11 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import { useRouter } from "next/navigation";
 import { defaultCode } from "@/lib/default";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
@@ -17,18 +16,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  loadLanguage,
-  langNames,
-  langs,
-} from "@uiw/codemirror-extensions-langs";
+import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { languages } from "@/lib/languages";
+import { Checkbox } from "./ui/checkbox";
 
 export function CodeForm({ readOnly, content }: any) {
   const [value, setValue] = useState(defaultCode);
   const [name, setName] = useState("file");
   const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
   const [lang, setLang]: any = useState("tsx");
+  const [terms, setTerms]: any = useState(false);
   const router = useRouter();
 
   const languageExtension = useMemo(() => {
@@ -47,6 +45,7 @@ export function CodeForm({ readOnly, content }: any) {
       const body = JSON.stringify({
         content: value,
         name: name,
+        lang: lang,
       });
       const req = await fetch(`/api/upload`, {
         method: "POST",
@@ -56,6 +55,7 @@ export function CodeForm({ readOnly, content }: any) {
         body: body,
       });
       const res = await req.json();
+      setComplete(true);
       router.push(`/snip/${res.IpfsHash}`);
     } catch (error) {
       console.log(error);
@@ -69,6 +69,14 @@ export function CodeForm({ readOnly, content }: any) {
       <Button disabled>
         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
         Please wait
+      </Button>
+    );
+  }
+  function ButtonComplete() {
+    return (
+      <Button disabled className="bg-green-600">
+        <CheckIcon className="mr-2 h-4 w-4" />
+        Complete!
       </Button>
     );
   }
@@ -88,7 +96,11 @@ export function CodeForm({ readOnly, content }: any) {
             </SelectTrigger>
             <SelectContent className="text-xs">
               {languages.map((object) => (
-                <SelectItem className="text-xs" value={object.value}>
+                <SelectItem
+                  key={object.value}
+                  className="text-xs"
+                  value={object.value}
+                >
                   {object.displayName}
                 </SelectItem>
               ))}
@@ -110,11 +122,30 @@ export function CodeForm({ readOnly, content }: any) {
           readOnly={readOnly}
         />
       </Card>
-      {loading ? (
-        ButtonLoading()
-      ) : (
-        <Button onClick={submitHandler}>Create Snippet</Button>
+      {loading && !complete && ButtonLoading()}
+      {!loading && !complete && (
+        <>
+          <div className="items-top flex space-x-2">
+            <Checkbox
+              checked={terms}
+              onCheckedChange={() => setTerms(!terms)}
+              id="terms1"
+            />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="terms1"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                I acknowledge all snippets are public
+              </label>
+            </div>
+          </div>
+          <Button disabled={!terms ? true : false} onClick={submitHandler}>
+            Create Snippet
+          </Button>
+        </>
       )}
+      {loading && complete && ButtonComplete()}
     </div>
   );
 }

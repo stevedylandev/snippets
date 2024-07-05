@@ -1,8 +1,27 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import { Header } from "@/components/header";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const commitMono = localFont({
+  src: [
+    {
+      path: "./CommitMono-400-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./CommitMono-700-Regular.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-commitMono",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} ${commitMono.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }

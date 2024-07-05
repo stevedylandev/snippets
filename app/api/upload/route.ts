@@ -11,6 +11,10 @@ export async function POST(request: NextRequest) {
       pinataContent: {
         content: body.content,
         name: body.name,
+        lang: body.lang,
+      },
+      pinataMetadata: {
+        name: body.name,
       },
       pinataOptions: {
         cidVersion: 1,

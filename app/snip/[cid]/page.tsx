@@ -1,3 +1,4 @@
+import { Header } from "@/components/header";
 import { ReadOnlyEditor } from "@/components/read-only-editor";
 
 async function fetchData(cid: string) {
@@ -14,10 +15,15 @@ async function fetchData(cid: string) {
 export default async function Page({ params }: { params: { cid: string } }) {
   const cid = params.cid;
   const data = await fetchData(cid);
-  console.log(data);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <ReadOnlyEditor content={data.content} name={data.name} />
+      <Header />
+      <ReadOnlyEditor
+        content={data.content}
+        name={data.name}
+        cid={cid}
+        lang={data.lang}
+      />
     </main>
   );
 }
