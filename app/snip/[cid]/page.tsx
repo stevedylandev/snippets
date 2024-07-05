@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ReadOnlyEditor } from "@/components/read-only-editor";
 
@@ -24,6 +25,7 @@ export default async function Page({ params }: { params: { cid: string } }) {
         cid={cid}
         lang={data.lang}
       />
+      <Footer />
     </main>
   );
 }
