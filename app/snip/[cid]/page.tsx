@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { cid: string } }) {
   const cid = params.cid;
   const data = await fetchData(cid);
   return (
-    <main className="flex min-h-screen flex-col sm:items-center items-start justify-center">
+    <main className="flex min-h-screen flex-col items-center sm:justify-center justify-start">
       <Header />
       <ReadOnlyEditor
         content={data.content}
