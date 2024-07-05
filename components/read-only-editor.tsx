@@ -30,7 +30,7 @@ export function ReadOnlyEditor({ content, name }: any) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
       <Card>
-        <div className="bg-secondary flex justify-start align-start w-full">
+        <div className="bg-secondary flex justify-between align-center w-full">
           <Button className="border border-b-0 px-3 pb-1 pt-1.5 cursor-default mt-2 ml-2 h-6 text-xs rounded-t-lg rounded-b-none bg-background text-secondary-foreground hover:bg-background">
             {name}
           </Button>

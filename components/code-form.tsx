@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,14 +10,33 @@ import { githubLight } from "@uiw/codemirror-theme-github";
 import { useRouter } from "next/navigation";
 import { defaultCode } from "@/lib/default";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  loadLanguage,
+  langNames,
+  langs,
+} from "@uiw/codemirror-extensions-langs";
+import { languages } from "@/lib/languages";
 
 export function CodeForm({ readOnly, content }: any) {
   const [value, setValue] = useState(defaultCode);
   const [name, setName] = useState("file");
   const [loading, setLoading] = useState(false);
+  const [lang, setLang]: any = useState("tsx");
   const router = useRouter();
 
-  const onChange = React.useCallback((val: any, viewUpdate: any) => {
+  const languageExtension = useMemo(() => {
+    const extension = loadLanguage(lang);
+    return extension ? [extension] : [];
+  }, [lang]);
+
+  const onChange = useCallback((val: any, viewUpdate: any) => {
     console.log("val:", val);
     setValue(val);
   }, []);
@@ -58,12 +76,24 @@ export function CodeForm({ readOnly, content }: any) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
       <Card className="">
-        <div className="bg-secondary flex justify-start align-start w-full">
+        <div className="bg-secondary flex justify-between align-start w-full">
           <Input
             placeholder="filename + extension"
             className="w-56 m-2 py-0 h-6 text-xs rounded-md"
             onChange={(e: any) => setName(e.target.value)}
           />
+          <Select onValueChange={(e) => setLang(e)} defaultValue="typescript">
+            <SelectTrigger className="w-[125px] h-6 m-2 text-xs rounded-md">
+              <SelectValue placeholder="language" />
+            </SelectTrigger>
+            <SelectContent className="text-xs">
+              {languages.map((object) => (
+                <SelectItem className="text-xs" value={object.value}>
+                  {object.displayName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <CodeMirror
           className="text-md opacity-60 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
@@ -74,7 +104,7 @@ export function CodeForm({ readOnly, content }: any) {
             lineNumbers: false,
             foldGutter: false,
           }}
-          extensions={[javascript({ jsx: true })]}
+          extensions={languageExtension}
           onChange={onChange}
           theme={githubLight}
           readOnly={readOnly}
