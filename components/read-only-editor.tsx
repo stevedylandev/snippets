@@ -3,8 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
-import { githubLight } from "@uiw/codemirror-theme-github";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { Button } from "./ui/button";
 import {
   CheckIcon,
@@ -14,15 +13,12 @@ import {
 } from "@radix-ui/react-icons";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { ShareModal } from "./share-modal";
-import {
-  loadLanguage,
-  langNames,
-  langs,
-} from "@uiw/codemirror-extensions-langs";
-import { languages } from "@/lib/languages";
+import { loadLanguage } from "@uiw/codemirror-extensions-langs";
+import { useTheme } from "next-themes";
 
 export function ReadOnlyEditor({ content, name, cid, lang }: any) {
   const [copied, setCopied] = useState(false);
+  const { theme } = useTheme();
 
   const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -56,6 +52,13 @@ export function ReadOnlyEditor({ content, name, cid, lang }: any) {
     URL.revokeObjectURL(url);
   }
 
+  let currentTheme: any;
+  if (theme === "light") {
+    currentTheme = githubLight;
+  } else {
+    currentTheme = githubDark;
+  }
+
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
       <Dialog>
@@ -66,7 +69,7 @@ export function ReadOnlyEditor({ content, name, cid, lang }: any) {
             </Button>
           </div>
           <CodeMirror
-            className="text-md opacity-60 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px] font-commitMono"
+            className="text-md opacity-65 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px] font-commitMono"
             height="100%"
             width="100%"
             value={content}
@@ -76,7 +79,7 @@ export function ReadOnlyEditor({ content, name, cid, lang }: any) {
               rectangularSelection: false,
             }}
             extensions={languageExtension}
-            theme={githubLight}
+            theme={currentTheme}
             readOnly
             editable={false}
           />

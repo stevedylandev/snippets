@@ -2,10 +2,10 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import CodeMirror from "@uiw/react-codemirror";
-import { githubLight } from "@uiw/codemirror-theme-github";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { useRouter } from "next/navigation";
 import { defaultCode } from "@/lib/default";
 import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
@@ -19,6 +19,7 @@ import {
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { languages } from "@/lib/languages";
 import { Checkbox } from "./ui/checkbox";
+import { useTheme } from "next-themes";
 
 export function CodeForm({ readOnly, content }: any) {
   const [value, setValue] = useState(defaultCode);
@@ -28,6 +29,7 @@ export function CodeForm({ readOnly, content }: any) {
   const [lang, setLang]: any = useState("tsx");
   const [terms, setTerms]: any = useState(false);
   const router = useRouter();
+  const { theme } = useTheme();
 
   const languageExtension = useMemo(() => {
     const extension = loadLanguage(lang);
@@ -81,6 +83,13 @@ export function CodeForm({ readOnly, content }: any) {
     );
   }
 
+  let currentTheme: any;
+  if (theme === "light") {
+    currentTheme = githubLight;
+  } else {
+    currentTheme = githubDark;
+  }
+
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
       <Card className="">
@@ -108,7 +117,7 @@ export function CodeForm({ readOnly, content }: any) {
           </Select>
         </div>
         <CodeMirror
-          className="text-md opacity-60 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
+          className="text-md opacity-65 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
           height="100%"
           width="100%"
           value={value}
@@ -118,7 +127,7 @@ export function CodeForm({ readOnly, content }: any) {
           }}
           extensions={languageExtension}
           onChange={onChange}
-          theme={githubLight}
+          theme={currentTheme}
           readOnly={readOnly}
         />
       </Card>
