@@ -26,7 +26,7 @@ const commitMono = localFont({
 
 export const metadata: Metadata = {
   title: "Snippets.so",
-  description: "Minimal code snippets",
+  description: "Clean and simple code sharing",
   icons: {
     apple: "/favicon.ico",
     shortcut: "/favicon.ico",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Snippets.so",
-    description: "Minimal code snippets",
+    description: "Clean and simple code sharing",
     url: "https://snippets.so",
     siteName: "Flowcast",
     images: [`https://www.snippets.so/og.png`],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Snippets.so",
-    description: "Minimal code snippets",
+    description: "Clean and simple code sharing",
     images: [`https://www.snippets.so/og.png`],
   },
   // other: {
