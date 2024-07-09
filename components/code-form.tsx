@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import CodeMirror from "@uiw/react-codemirror";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import { createTheme } from "@uiw/codemirror-themes";
 import { useRouter } from "next/navigation";
 import { defaultCode } from "@/lib/default";
 import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
@@ -20,6 +21,7 @@ import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { languages } from "@/lib/languages";
 import { Checkbox } from "./ui/checkbox";
 import { useTheme } from "next-themes";
+import { darkTheme, lightTheme } from "@/lib/themes";
 
 export function CodeForm({ readOnly, content }: any) {
   const [value, setValue] = useState(defaultCode);
@@ -92,7 +94,7 @@ export function CodeForm({ readOnly, content }: any) {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
-      <Card className="">
+      <Card className="overflow-hidden">
         <div className="bg-secondary flex justify-between align-start w-full">
           <Input
             placeholder="filename + extension"
@@ -117,13 +119,15 @@ export function CodeForm({ readOnly, content }: any) {
           </Select>
         </div>
         <CodeMirror
-          className="text-md opacity-65 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
+          className="text-md p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
           height="100%"
           width="100%"
           value={value}
           basicSetup={{
             lineNumbers: false,
             foldGutter: false,
+            highlightActiveLine: true,
+            rectangularSelection: true,
           }}
           extensions={languageExtension}
           onChange={onChange}
