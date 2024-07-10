@@ -4,7 +4,9 @@ import { ReadOnlyEditor } from "@/components/read-only-editor";
 
 async function fetchData(cid: string) {
   try {
-    const req = await fetch(`https://snippets.mypinata.cloud/ipfs/${cid}`);
+    const req = await fetch(
+      `https://${process.env.GATEWAY_DOMAIN}/ipfs/${cid}`,
+    );
     const res = await req.json();
     return res;
   } catch (error) {

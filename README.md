@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Snippets.so
+![cover](https://www.snippets.so/og.png)
+No ads, no fuss, just code
 
-## Getting Started
+## Development Setup
 
-First, run the development server:
+Clone the repo and install
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+git clone https://github.com/stevedylandev/snippets && cd snippets && npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a `.env.local` file with the following variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+PINATA_JWT= # created at https://app.pinata.cloud/developers/api-keys
+GATEWAY_URL= # Located at https://app.pinata.cloud/gateway
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Start up the server with `npm run dev`
 
-## Learn More
+## Ports
 
-To learn more about Next.js, take a look at the following resources:
+### API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+curl --location 'https://www.snippets.so/api/upload' \
+--header 'Content-Type: application/json' \
+--data '{
+  "content": "console.log(\"hello world!\")",
+  "name": "hello.ts",
+  "lang": "typescript"
+}'
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+[List of supported languages](https://github.com/stevedylandev/snippets/blob/main/lib/languages.ts)
 
-## Deploy on Vercel
+```
+https://snippets.so/snip/{IpfsHash}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### CLI
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+brew install stevedylandev/snippets-cli/snippets-cli
+```
+
+For other installs check out the [Github repo](https://github.com/stevedylandev/snippets-cli)
+
+**Usage**
+
+```
+snip hello.ts
+```
+
+## Contact
+
+Feedback? [hello@stevedylan.dev](mailto:hello@stevedylan.dev)
+Like what you see? [Eth Address](https://rainbow.me/stevedylandev.eth) [Buy me a coffee](https://buymeacoffee.com/stevedylandev)
