@@ -59,14 +59,14 @@ export function ReadOnlyEditor({ content, name, cid, lang }: any) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
       <Dialog>
-        <Card>
+        <Card className="overflow-hidden">
           <div className="bg-secondary flex justify-between align-center w-full">
             <Button className="border border-b-0 px-3 pb-1 pt-1.5 cursor-default mt-2 ml-2 h-6 text-xs rounded-t-lg rounded-b-none bg-background text-secondary-foreground hover:bg-background">
               {name}
             </Button>
           </div>
           <CodeMirror
-            className="text-md opacity-60 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px] font-commitMono"
+            className="text-md opacity-75 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px] font-commitMono"
             height="100%"
             width="100%"
             value={content}

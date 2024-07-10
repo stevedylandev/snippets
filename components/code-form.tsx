@@ -83,7 +83,7 @@ export function CodeForm({ readOnly, content }: any) {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
-      <Card className="">
+      <Card className="overflow-hidden">
         <div className="bg-secondary flex justify-between align-start w-full">
           <Input
             placeholder="filename + extension"
@@ -108,7 +108,7 @@ export function CodeForm({ readOnly, content }: any) {
           </Select>
         </div>
         <CodeMirror
-          className="text-md opacity-60 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
+          className="text-md opacity-75 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
           height="100%"
           width="100%"
           value={value}
