@@ -43,17 +43,7 @@ export const metadata: Metadata = {
     title: "Snippets.so",
     description: "Clean and simple code sharing",
     images: [`https://www.snippets.so/og.png`],
-  },
-  // other: {
-  //   "fc:frame": "vNext",
-  //   "fc:frame:image": "https://www.flowcast.me/og.png",
-  //   "fc:frame:button:1": "Start Writing",
-  //   "fc:frame:button:1:action": "link",
-  //   "fc:frame:button:1:target": "https://www.flowcast.me",
-  //   "fc:frame:button:2": "What is Flowcast?",
-  //   "fc:frame:button:2:action": "post",
-  //   "fc:frame:button:2:target": "https://www.flowcast.me/slides",
-  // },
+  }
 };
 
 export default function RootLayout({
