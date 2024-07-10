@@ -13,8 +13,11 @@ git clone https://github.com/stevedylandev/snippets && cd snippets && npm instal
 Create a `.env.local` file with the following variables
 
 ```
-PINATA_JWT= # created at https://app.pinata.cloud/developers/api-keys
-GATEWAY_URL= # Located at https://app.pinata.cloud/gateway
+# Created at https://app.pinata.cloud/developers/api-keys
+PINATA_JWT=
+
+# Located at https://app.pinata.cloud/gateway
+GATEWAY_URL=
 ```
 
 Start up the server with `npm run dev`
