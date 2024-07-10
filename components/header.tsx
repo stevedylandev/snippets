@@ -29,13 +29,13 @@ export function Header() {
             <InfoCircledIcon className="text-muted-foreground h-6 w-6" />
           </Button>
         </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
+        <DialogContent className="sm:w-[750px] w-full">
+          <DialogHeader className="mr-auto">
             <DialogTitle>Clean and Simple Code Sharing</DialogTitle>
           </DialogHeader>
           <p>No ads, no fuss, just code</p>
           <h3 className="font-semibold">API</h3>
-          <pre className="bg-secondary p-2 rounded-md text-sm">
+          <pre className="bg-secondary p-2 rounded-md sm:text-sm text-xs sm:text-nowrap text-wrap">
             <code>{`curl --location 'https://www.snippets.so/api/upload' \\
           --header 'Content-Type: application/json' \\
           --data '{
@@ -53,9 +53,14 @@ export function Header() {
               List of supported languages
             </a>
           </p>
+          <pre className="bg-secondary p-2 rounded-md sm:text-sm text-xs sm:text-nowrap text-wrap">
+            <code>
+              https://snippets.so/snip/{"{"}IpfsHash{"}"}
+            </code>
+          </pre>
 
           <h3 className="font-semibold">CLI</h3>
-          <pre className="bg-secondary p-2 rounded-md text-sm ">
+          <pre className="bg-secondary p-2 rounded-md sm:text-sm text-xs sm:text-nowrap text-wrap">
             <code>brew install stevedylandev/snippets-cli/snippets-cli</code>
           </pre>
           <p className="text-sm text-muted-foreground">
@@ -69,7 +74,7 @@ export function Header() {
             </a>
           </p>
           <p className="text-sm font-semibold">Usage</p>
-          <pre className="bg-secondary p-2 rounded-md text-sm relative">
+          <pre className="bg-secondary p-2 rounded-md sm:text-sm text-xs relative">
             <code>snip hello.ts</code>
           </pre>
           <Separator />
