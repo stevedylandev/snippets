@@ -29,7 +29,7 @@ export function Header() {
             <InfoCircledIcon className="text-muted-foreground h-6 w-6" />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:w-[750px] w-full">
+        <DialogContent className="sm:w-[750px] w-full max-h-screen">
           <DialogHeader className="mr-auto">
             <DialogTitle>Clean and Simple Code Sharing</DialogTitle>
           </DialogHeader>
