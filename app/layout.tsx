@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 		title: "Snippets.so",
 		description: "Clean and simple code sharing",
 		url: "https://snippets.so",
-		siteName: "Flowcast",
+		siteName: "Snippets.so",
 		images: ["https://www.snippets.so/og.png"],
 	},
 	twitter: {
