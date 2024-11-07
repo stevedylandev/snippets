@@ -1,4 +1,9 @@
-export const languages = [
+import type { LanguageName } from "@uiw/codemirror-extensions-langs";
+
+export const languages: {
+	displayName: string;
+	value: LanguageName;
+}[] = [
 	{ displayName: "Bash", value: "shell" },
 	{ displayName: "C", value: "c" },
 	{ displayName: "C#", value: "csharp" },

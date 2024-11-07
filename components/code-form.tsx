@@ -98,7 +98,10 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 							setName(e.target.value)
 						}
 					/>
-					<Select onValueChange={(e) => setLang(e)} defaultValue="typescript">
+					<Select
+						onValueChange={(e: LanguageName) => setLang(e)}
+						defaultValue="typescript"
+					>
 						<SelectTrigger className="w-[125px] h-6 m-2 text-xs rounded-md">
 							<SelectValue placeholder="language" />
 						</SelectTrigger>
