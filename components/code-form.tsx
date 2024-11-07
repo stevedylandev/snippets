@@ -47,7 +47,7 @@ export function CodeForm({ readOnly, content }: any) {
 				name: name,
 				lang: lang,
 			});
-			const req = await fetch(`/api/upload`, {
+			const req = await fetch("/api/upload", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

@@ -5,9 +5,10 @@ import { ReadOnlyEditor } from "@/components/read-only-editor";
 async function fetchData(cid: string) {
 	try {
 		const req = await fetch(
-			`https://${process.env.GATEWAY_DOMAIN}/ipfs/${cid}`,
+			`https://${process.env.GATEWAY_DOMAIN}/files/${cid}`,
 		);
 		const res = await req.json();
+		console.log(res);
 		return res;
 	} catch (error) {
 		console.log(error);
