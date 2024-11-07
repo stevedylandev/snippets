@@ -17,16 +17,22 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
+import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import { languages } from "@/lib/languages";
 import { Checkbox } from "./ui/checkbox";
 
-export function CodeForm({ readOnly, content }: any) {
+type CodeFormProps = {
+	readOnly: boolean;
+	content: string;
+};
+
+export function CodeForm({ readOnly, content }: CodeFormProps) {
 	const [value, setValue] = useState(defaultCode);
 	const [name, setName] = useState("file");
 	const [loading, setLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
-	const [lang, setLang]: any = useState("tsx");
-	const [terms, setTerms]: any = useState(false);
+	const [lang, setLang] = useState<LanguageName>("tsx");
+	const [terms, setTerms] = useState<boolean>(false);
 	const router = useRouter();
 
 	const languageExtension = useMemo(() => {
@@ -34,7 +40,7 @@ export function CodeForm({ readOnly, content }: any) {
 		return extension ? [extension] : [];
 	}, [lang]);
 
-	const onChange = useCallback((val: any, viewUpdate: any) => {
+	const onChange = useCallback((val: string) => {
 		console.log("val:", val);
 		setValue(val);
 	}, []);
@@ -88,7 +94,9 @@ export function CodeForm({ readOnly, content }: any) {
 					<Input
 						placeholder="filename + extension"
 						className="w-56 m-2 py-0 h-6 text-xs rounded-md"
-						onChange={(e: any) => setName(e.target.value)}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							setName(e.target.value)
+						}
 					/>
 					<Select onValueChange={(e) => setLang(e)} defaultValue="typescript">
 						<SelectTrigger className="w-[125px] h-6 m-2 text-xs rounded-md">
@@ -140,7 +148,7 @@ export function CodeForm({ readOnly, content }: any) {
 							</label>
 						</div>
 					</div>
-					<Button disabled={!terms ? true : false} onClick={submitHandler}>
+					<Button disabled={!terms} onClick={submitHandler}>
 						Create Snippet
 					</Button>
 				</>

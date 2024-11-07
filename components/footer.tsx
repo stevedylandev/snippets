@@ -14,6 +14,7 @@ export function Footer() {
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
 					>
+						<title>Vercel</title>
 						<path d="M577.344 0L1154.69 1000H0L577.344 0Z" fill="black" />
 					</svg>
 				</Link>

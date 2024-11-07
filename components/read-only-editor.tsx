@@ -14,14 +14,22 @@ import {
 } from "@radix-ui/react-icons";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { ShareModal } from "./share-modal";
-import {
-	loadLanguage,
-	langNames,
-	langs,
-} from "@uiw/codemirror-extensions-langs";
-import { languages } from "@/lib/languages";
+import { loadLanguage } from "@uiw/codemirror-extensions-langs";
+import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 
-export function ReadOnlyEditor({ content, name, cid, lang }: any) {
+type ReadOnlyEditorProps = {
+	content: string;
+	name: string;
+	cid: string;
+	lang: LanguageName;
+};
+
+export function ReadOnlyEditor({
+	content,
+	name,
+	cid,
+	lang,
+}: ReadOnlyEditorProps) {
 	const [copied, setCopied] = useState(false);
 
 	const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));

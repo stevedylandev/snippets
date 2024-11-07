@@ -1,5 +1,5 @@
-export const defaultCode: any =
-	'import { PinataSDK } from "@pinata/sdk";\n' +
+export const defaultCode: string =
+	'import { PinataSDK } from "pinata";\n' +
 	"\n" +
 	"const pinata = new PinataSDK({\n" +
 	"  pinataJwt: process.env.PINATA_JWT!,\n" +
@@ -8,7 +8,7 @@ export const defaultCode: any =
 	"\n" +
 	"async function upload() {\n" +
 	"  try {\n" +
-	'    const file = new File(["Sharing code with IPFS"], "snippet.txt", { type: "text/plain" });\n' +
+	'    const file = new File(["Sharing code with Pinata"], "snippet.txt", { type: "text/plain" });\n' +
 	"    const data = await pinata.upload.file(file);\n" +
 	"    console.log(data);\n" +
 	"  } catch (error) {\n" +
@@ -16,4 +16,4 @@ export const defaultCode: any =
 	"  }\n" +
 	"}\n" +
 	"\n" +
-	"await upload();\n";
+	"upload();\n";
