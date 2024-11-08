@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
 					lang: body.lang,
 					private: body.isPrivate,
 					expires: body.expires,
+					passwordHash: body.password,
 				},
 			})
 			.group(body.isPrivate === "true" ? "" : process.env.GROUP_ID!);

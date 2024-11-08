@@ -20,6 +20,7 @@ import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import { languages } from "@/lib/languages";
 import { Checkbox } from "./ui/checkbox";
+import * as Argon2 from "argon2-browser";
 
 type CodeFormProps = {
 	readOnly: boolean;
@@ -61,6 +62,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 	const [lang, setLang] = useState<LanguageName>("tsx");
 	const [terms, setTerms] = useState<boolean>(false);
 	const [time, setTime] = useState<string>();
+	const [password, setPassword] = useState<string>("");
 	const router = useRouter();
 
 	const languageExtension = useMemo(() => {
@@ -77,8 +79,23 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 		try {
 			setLoading(true);
 			let isPrivate = "true";
+			let passwordHash = "";
 			if (time === "0") {
 				isPrivate = "false";
+			}
+			if (password !== "") {
+				isPrivate = "true";
+				const salt = window.crypto.getRandomValues(new Uint8Array(16));
+				const result = await Argon2.hash({
+					pass: password,
+					salt: salt,
+					time: 3, // number of iterations
+					mem: 4096, // memory usage in KiB
+					hashLen: 32, // output size in bytes
+					parallelism: 1, // degree of parallelism
+				});
+				passwordHash = result.encoded;
+				console.log("Password hash:", passwordHash); // for debugging
 			}
 			const body = JSON.stringify({
 				content: value,
@@ -86,6 +103,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 				lang: lang,
 				isPrivate: isPrivate,
 				expires: time,
+				password: passwordHash,
 			});
 			const req = await fetch("/api/upload", {
 				method: "POST",
@@ -183,6 +201,13 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 								))}
 							</SelectContent>
 						</Select>
+
+						<Input
+							type="password"
+							placeholder="Password (optional)"
+							onChange={(e) => setPassword(e.target.value)}
+							className="w-full"
+						/>
 
 						<div className="flex space-x-2 items-top">
 							<Checkbox

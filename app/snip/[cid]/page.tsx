@@ -3,6 +3,7 @@ import { Header } from "@/components/header";
 import { ReadOnlyEditor } from "@/components/read-only-editor";
 import { PinataSDK } from "pinata";
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
+import { ProtectedContent } from "@/components/password-content";
 
 interface SnippetData {
 	content: string;
@@ -10,6 +11,7 @@ interface SnippetData {
 	lang: LanguageName;
 	expires: string;
 	date: string;
+	passwordHash: string;
 }
 
 const pinata = new PinataSDK({
@@ -32,6 +34,7 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 				lang: jsonContent.lang as LanguageName,
 				expires: file.keyvalues.expires || "0",
 				date: file.created_at,
+				passwordHash: "",
 			};
 			console.log(res);
 			return res;
@@ -42,6 +45,7 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 			lang: file.keyvalues.lang as LanguageName,
 			expires: file.keyvalues.expires || "0",
 			date: file.created_at,
+			passwordHash: file.keyvalues.passwordHash,
 		};
 		console.log(res);
 		return res;
@@ -71,10 +75,18 @@ export default async function Page({ params }: { params: { cid: string } }) {
 		console.log("Has expired:", hasExpired);
 	}
 
+	// Don't pass content to client if password protected
+	const isPasswordProtected = !!data.passwordHash;
+	const clientData = {
+		...data,
+		content: isPasswordProtected ? "" : data.content,
+		passwordHash: data.passwordHash,
+	};
+
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center sm:justify-start">
 			<Header />
-			{!hasExpired && (
+			{!hasExpired && !isPasswordProtected && (
 				<ReadOnlyEditor
 					content={data.content}
 					name={data.name}
@@ -82,6 +94,9 @@ export default async function Page({ params }: { params: { cid: string } }) {
 					lang={data.lang}
 					futureDate={futureDate}
 				/>
+			)}
+			{!hasExpired && isPasswordProtected && (
+				<ProtectedContent data={clientData} cid={cid} futureDate={futureDate} />
 			)}
 			{hasExpired && (
 				<div className="w-full min-h-96 flex flex-col justify-center items-center gap-4">
