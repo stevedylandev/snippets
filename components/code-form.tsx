@@ -52,6 +52,8 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 				content: value,
 				name: name,
 				lang: lang,
+				isPrivate: "true",
+				expires: "5",
 			});
 			const req = await fetch("/api/upload", {
 				method: "POST",

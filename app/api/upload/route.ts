@@ -11,16 +11,18 @@ const pinata = new PinataSDK({
 export async function POST(request: NextRequest) {
 	try {
 		const body = await request.json();
+		const file = new File([body.content], body.name, { type: "text/plain" });
 		const res: UploadResponse = await pinata.upload
-			.json({
-				content: body.content,
-				name: body.name,
-				lang: body.lang,
-			})
+			.file(file)
 			.addMetadata({
 				name: body.name,
+				keyvalues: {
+					lang: body.lang,
+					private: body.isPrivate,
+					expires: body.expires,
+				},
 			})
-			.group(process.env.GROUP_ID!);
+			.group(body.isPrivate === "true" ? "" : process.env.GROUP_ID!);
 		return NextResponse.json({
 			IpfsHash: res.cid,
 		});
