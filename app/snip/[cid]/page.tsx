@@ -109,7 +109,6 @@ export default async function Page({ params }: { params: { cid: string } }) {
 					<h3 className="text-lg font-bold">Content has expired</h3>
 				</div>
 			)}
-			<Footer />
 		</main>
 	);
 }

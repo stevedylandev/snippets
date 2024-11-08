@@ -17,9 +17,27 @@ export function Header() {
 	return (
 		<div className="flex items-center justify-between mt-4 w-[350px] sm:w-[600px] mb-4">
 			<Dialog>
-				<Link className="font-commitMono text-2xl font-bold" href="/">
-					Snippets.so
-				</Link>
+				<div className="flex flex-col justify-content items-start gap-0 text-sm mt-6">
+					<Link className="font-commitMono text-2xl font-bold" href="/">
+						Snippets.so
+					</Link>
+					<div className="flex gap-2 items-center text-xs">
+						<p>Powered by</p>
+						<Link href="https://pinata.cloud" target="_blank">
+							<img className="h-10" src="/pinata.png" alt="pinata" />
+						</Link>
+						<p className="pt-1 text-xs">
+							built by{" "}
+							<Link
+								className="font-bold underline"
+								href="https://stevedylan.dev"
+								target="_blank"
+							>
+								Steve
+							</Link>
+						</p>
+					</div>
+				</div>
 				<DialogTrigger>
 					<Button
 						variant="outline"

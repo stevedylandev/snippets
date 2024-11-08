@@ -122,7 +122,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 	}
 
 	return (
-		<div className="w-full h-full flex flex-col justify-center items-center gap-4">
+		<div className="w-full h-full flex flex-col justify-center items-center gap-4 mb-6">
 			<Card className="overflow-hidden">
 				<div className="bg-secondary flex justify-between align-start w-full">
 					<Input
@@ -172,12 +172,16 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 				<>
 					<div className="items-center flex flex-col gap-6">
 						<Select onValueChange={(e: string) => setTime(e)}>
-							<SelectTrigger>
+							<SelectTrigger className="h-8 m-2 text-xs">
 								<SelectValue placeholder="Expiration" />
 							</SelectTrigger>
 							<SelectContent>
 								{times.map((object) => (
-									<SelectItem key={object.value} value={object.value}>
+									<SelectItem
+										className="text-xs"
+										key={object.value}
+										value={object.value}
+									>
 										{object.displayName}
 									</SelectItem>
 								))}
