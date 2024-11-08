@@ -36,8 +36,14 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 			console.log(res);
 			return res;
 		}
+		const signedUrl = await pinata.gateways.createSignedURL({
+			cid: cid,
+			expires: 20,
+		});
+		const contentReq = await fetch(signedUrl);
+		const rawContent = await contentReq.text();
 		const res: SnippetData = {
-			content: content as string,
+			content: rawContent as string,
 			name: file.name as string,
 			lang: file.keyvalues.lang as LanguageName,
 			expires: file.keyvalues.expires || "0",
