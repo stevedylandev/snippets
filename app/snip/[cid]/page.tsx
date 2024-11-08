@@ -20,13 +20,28 @@ const pinata = new PinataSDK({
 async function fetchData(cid: string): Promise<SnippetData | Error> {
 	try {
 		const fileInfo = await pinata.files.list().cid(cid);
-		const { data: content } = await pinata.gateways.get(cid);
+		const file = fileInfo.files[0];
+		const { data: content, contentType } = await pinata.gateways.get(cid);
+		if (contentType === "application/json") {
+			const jsonContent =
+				typeof content === "string" ? JSON.parse(content) : content;
+
+			const res: SnippetData = {
+				content: jsonContent.content,
+				name: file.name as string,
+				lang: "json" as LanguageName,
+				expires: file.keyvalues.expires || "0",
+				date: file.created_at,
+			};
+			console.log(res);
+			return res;
+		}
 		const res: SnippetData = {
 			content: content as string,
-			name: fileInfo.files[0].name as string,
-			lang: fileInfo.files[0].keyvalues.lang as LanguageName,
-			expires: fileInfo.files[0].keyvalues.expires,
-			date: fileInfo.files[0].created_at,
+			name: file.name as string,
+			lang: file.keyvalues.lang as LanguageName,
+			expires: file.keyvalues.expires || "0",
+			date: file.created_at,
 		};
 		console.log(res);
 		return res;
@@ -40,14 +55,15 @@ export default async function Page({ params }: { params: { cid: string } }) {
 	const cid = params.cid;
 	const data = await fetchData(cid);
 	let hasExpired = false;
+	let futureDate: Date | undefined;
 
 	if (data instanceof Error) {
 		throw data;
 	}
 
-	if (data.expires !== "") {
+	if (data.expires !== "0") {
 		const date = new Date(data.date);
-		const futureDate = new Date(
+		futureDate = new Date(
 			date.getTime() + Number.parseInt(data.expires) * 1000,
 		);
 		const currentDate = new Date();
@@ -64,11 +80,27 @@ export default async function Page({ params }: { params: { cid: string } }) {
 					name={data.name}
 					cid={cid}
 					lang={data.lang}
+					futureDate={futureDate}
 				/>
 			)}
 			{hasExpired && (
 				<div className="w-full min-h-96 flex flex-col justify-center items-center gap-4">
-					<h3>Content has expired</h3>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="32"
+						height="32"
+						viewBox="0 0 16 16"
+						className="h-12 w-12"
+					>
+						<title>Expired</title>
+						<path
+							fill="current-color"
+							fill-rule="evenodd"
+							d="M8.175.002a8 8 0 1 0 2.309 15.603a.75.75 0 0 0-.466-1.426a6.5 6.5 0 1 1 3.996-8.646a.75.75 0 0 0 1.388-.569A8 8 0 0 0 8.175.002M8.75 3.75a.75.75 0 0 0-1.5 0v3.94L5.216 9.723a.75.75 0 1 0 1.06 1.06L8.53 8.53l.22-.22zM15 15a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-.25-6.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+					<h3 className="text-lg font-bold">Content has expired</h3>
 				</div>
 			)}
 			<Footer />

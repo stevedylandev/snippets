@@ -26,6 +26,33 @@ type CodeFormProps = {
 	content: string;
 };
 
+const times = [
+	{
+		displayName: "No Expiration",
+		value: "0",
+	},
+	{
+		displayName: "10 Minutes",
+		value: "600",
+	},
+	{
+		displayName: "1 Hour",
+		value: "3600",
+	},
+	{
+		displayName: "10 Hours",
+		value: "36000",
+	},
+	{
+		displayName: "1 Day",
+		value: "86400",
+	},
+	{
+		displayName: "10 Days",
+		value: "864000",
+	},
+];
+
 export function CodeForm({ readOnly, content }: CodeFormProps) {
 	const [value, setValue] = useState(defaultCode);
 	const [name, setName] = useState("file");
@@ -33,6 +60,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 	const [complete, setComplete] = useState(false);
 	const [lang, setLang] = useState<LanguageName>("tsx");
 	const [terms, setTerms] = useState<boolean>(false);
+	const [time, setTime] = useState<string>();
 	const router = useRouter();
 
 	const languageExtension = useMemo(() => {
@@ -48,12 +76,16 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 	async function submitHandler() {
 		try {
 			setLoading(true);
+			let isPrivate = "true";
+			if (time === "0") {
+				isPrivate = "false";
+			}
 			const body = JSON.stringify({
 				content: value,
 				name: name,
 				lang: lang,
-				isPrivate: "true",
-				expires: "5",
+				isPrivate: isPrivate,
+				expires: time,
 			});
 			const req = await fetch("/api/upload", {
 				method: "POST",
@@ -138,19 +170,34 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 			{loading && !complete && ButtonLoading()}
 			{!loading && !complete && (
 				<>
-					<div className="items-top flex space-x-2">
-						<Checkbox
-							checked={terms}
-							onCheckedChange={() => setTerms(!terms)}
-							id="terms1"
-						/>
-						<div className="grid gap-1.5 leading-none">
-							<label
-								htmlFor="terms1"
-								className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-							>
-								I acknowledge all snippets are public
-							</label>
+					<div className="items-center flex flex-col gap-6">
+						<Select onValueChange={(e: string) => setTime(e)}>
+							<SelectTrigger>
+								<SelectValue placeholder="Expiration" />
+							</SelectTrigger>
+							<SelectContent>
+								{times.map((object) => (
+									<SelectItem key={object.value} value={object.value}>
+										{object.displayName}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+
+						<div className="flex space-x-2 items-top">
+							<Checkbox
+								checked={terms}
+								onCheckedChange={() => setTerms(!terms)}
+								id="terms1"
+							/>
+							<div className="grid gap-1.5 leading-none">
+								<label
+									htmlFor="terms1"
+									className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+								>
+									I acknowledge all snippets are public
+								</label>
+							</div>
 						</div>
 					</div>
 					<Button disabled={!terms} onClick={submitHandler}>

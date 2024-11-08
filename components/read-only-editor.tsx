@@ -22,6 +22,7 @@ type ReadOnlyEditorProps = {
 	name: string;
 	cid: string;
 	lang: LanguageName;
+	futureDate?: Date;
 };
 
 export function ReadOnlyEditor({
@@ -29,6 +30,7 @@ export function ReadOnlyEditor({
 	name,
 	cid,
 	lang,
+	futureDate,
 }: ReadOnlyEditorProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -89,6 +91,10 @@ export function ReadOnlyEditor({
 						editable={false}
 					/>
 				</Card>
+				<p className="text-muted-foreground">
+					{futureDate &&
+						`Expires: ${futureDate.toLocaleDateString()} ${futureDate.toLocaleTimeString()}`}
+				</p>
 				<div className="flex align-center gap-4 my-4">
 					<Button onClick={copyToClipboard} className="flex gap-2" size="sm">
 						{copied ? (
