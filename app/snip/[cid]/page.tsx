@@ -1,4 +1,3 @@
-import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ReadOnlyEditor } from "@/components/read-only-editor";
 import { PinataSDK } from "pinata";
@@ -22,7 +21,9 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 		const fileInfo = await pinata.files.list().cid(cid);
 		const file = fileInfo.files[0];
 		const { data: content, contentType } = await pinata.gateways.get(cid);
-		if (contentType === "application/json") {
+		const creationDate = new Date(file.created_at);
+		const cutoffDate = new Date("2024-11-07");
+		if (creationDate < cutoffDate) {
 			const jsonContent =
 				typeof content === "string" ? JSON.parse(content) : content;
 
