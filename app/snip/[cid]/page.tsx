@@ -29,7 +29,7 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 			const res: SnippetData = {
 				content: jsonContent.content,
 				name: file.name as string,
-				lang: "json" as LanguageName,
+				lang: jsonContent.lang as LanguageName,
 				expires: file.keyvalues.expires || "0",
 				date: file.created_at,
 			};
