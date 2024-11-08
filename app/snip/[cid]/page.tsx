@@ -22,7 +22,7 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 		const file = fileInfo.files[0];
 		const { data: content, contentType } = await pinata.gateways.get(cid);
 		const creationDate = new Date(file.created_at);
-		const cutoffDate = new Date("2024-11-07");
+		const cutoffDate = new Date("2024-11-07T05:02:00.939309Z");
 		if (creationDate < cutoffDate) {
 			const jsonContent =
 				typeof content === "string" ? JSON.parse(content) : content;
