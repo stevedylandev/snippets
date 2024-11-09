@@ -61,7 +61,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 	const [complete, setComplete] = useState(false);
 	const [lang, setLang] = useState<LanguageName>("tsx");
 	const [terms, setTerms] = useState<boolean>(false);
-	const [time, setTime] = useState<string>();
+	const [time, setTime] = useState<string>("0");
 	const [password, setPassword] = useState<string>("");
 	const router = useRouter();
 
