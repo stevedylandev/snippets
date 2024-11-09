@@ -91,7 +91,7 @@ export function ReadOnlyEditor({
 						editable={false}
 					/>
 				</Card>
-				<p className="text-muted-foreground">
+				<p className="text-muted-foreground font-commitMono">
 					{futureDate &&
 						`Expires: ${futureDate.toLocaleDateString()} ${futureDate.toLocaleTimeString()}`}
 				</p>
