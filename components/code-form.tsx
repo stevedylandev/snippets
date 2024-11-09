@@ -2,13 +2,18 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import CodeMirror from "@uiw/react-codemirror";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import { useRouter } from "next/navigation";
 import { defaultCode } from "@/lib/default";
-import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import {
+	CheckIcon,
+	ReloadIcon,
+	EyeOpenIcon,
+	EyeClosedIcon,
+} from "@radix-ui/react-icons";
 import {
 	Select,
 	SelectContent,
@@ -20,7 +25,6 @@ import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import { languages } from "@/lib/languages";
 import { Checkbox } from "./ui/checkbox";
-import * as Argon2 from "argon2-browser";
 
 type CodeFormProps = {
 	readOnly: boolean;
@@ -63,6 +67,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 	const [terms, setTerms] = useState<boolean>(false);
 	const [time, setTime] = useState<string>("0");
 	const [password, setPassword] = useState<string>("");
+	const [showPassword, setShowPassword] = useState(false);
 	const router = useRouter();
 
 	const languageExtension = useMemo(() => {
@@ -79,23 +84,8 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 		try {
 			setLoading(true);
 			let isPrivate = "true";
-			let passwordHash = "";
-			if (time === "0") {
+			if (time === "0" || password === "") {
 				isPrivate = "false";
-			}
-			if (password !== "") {
-				isPrivate = "true";
-				const salt = window.crypto.getRandomValues(new Uint8Array(16));
-				const result = await Argon2.hash({
-					pass: password,
-					salt: salt,
-					time: 3, // number of iterations
-					mem: 4096, // memory usage in KiB
-					hashLen: 32, // output size in bytes
-					parallelism: 1, // degree of parallelism
-				});
-				passwordHash = result.encoded;
-				console.log("Password hash:", passwordHash); // for debugging
 			}
 			const body = JSON.stringify({
 				content: value,
@@ -103,7 +93,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 				lang: lang,
 				isPrivate: isPrivate,
 				expires: time,
-				password: passwordHash,
+				password: password || "",
 			});
 			const req = await fetch("/api/upload", {
 				method: "POST",
@@ -188,7 +178,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 			{loading && !complete && ButtonLoading()}
 			{!loading && !complete && (
 				<>
-					<div className="items-center flex flex-col gap-6">
+					<div className="items-center flex flex-col gap-4">
 						<Select onValueChange={(e: string) => setTime(e)}>
 							<SelectTrigger className="h-8 m-2 text-xs">
 								<SelectValue placeholder="Expiration" />
@@ -206,32 +196,27 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 							</SelectContent>
 						</Select>
 
-						<Input
-							type="password"
-							placeholder="Password (optional)"
-							onChange={(e) => setPassword(e.target.value)}
-							className="w-full"
-						/>
-
-						<div className="flex space-x-2 items-top">
-							<Checkbox
-								checked={terms}
-								onCheckedChange={() => setTerms(!terms)}
-								id="terms1"
+						<div className="relative w-full">
+							<Input
+								type={showPassword ? "text" : "password"}
+								placeholder="Password (optional)"
+								onChange={(e) => setPassword(e.target.value)}
+								className="w-full h-8 text-xs pr-10" // Added pr-10 for padding on the right
 							/>
-							<div className="grid gap-1.5 leading-none">
-								<label
-									htmlFor="terms1"
-									className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-								>
-									I acknowledge all snippets are public
-								</label>
-							</div>
+							<button
+								type="button"
+								onClick={() => setShowPassword(!showPassword)}
+								className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+							>
+								{showPassword ? (
+									<EyeClosedIcon className="h-4 w-4" />
+								) : (
+									<EyeOpenIcon className="h-4 w-4" />
+								)}
+							</button>
 						</div>
 					</div>
-					<Button disabled={!terms} onClick={submitHandler}>
-						Create Snippet
-					</Button>
+					<Button onClick={submitHandler}>Create Snippet</Button>
 				</>
 			)}
 			{loading && complete && ButtonComplete()}

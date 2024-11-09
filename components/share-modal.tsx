@@ -4,20 +4,22 @@ import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
 import {
-	Dialog,
 	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 
-export function ShareModal({ url }: any) {
+interface ShareModalProps {
+	url: string;
+}
+
+export function ShareModal({ url }: ShareModalProps) {
 	const [copied, setCopied] = useState(false);
 
 	const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
