@@ -54,7 +54,7 @@ export function PasswordCheck({
 	return (
 		<Card className="p-6 mt-24">
 			<h2 className="text-lg font-bold mb-4">
-				This snippet is password protected
+				This snip is password protected
 			</h2>
 			<div className="space-y-4">
 				<div className="relative w-full">
@@ -82,7 +82,11 @@ export function PasswordCheck({
 					</button>
 				</div>
 				{error && <p className="text-red-500 text-sm">Incorrect password</p>}
-				<Button onClick={checkPassword} disabled={isVerifying}>
+				<Button
+					className="h-8 w-full"
+					onClick={checkPassword}
+					disabled={isVerifying}
+				>
 					{isVerifying ? "Verifying..." : "Submit"}
 				</Button>
 			</div>
