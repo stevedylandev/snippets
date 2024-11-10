@@ -62,7 +62,7 @@ export function PasswordCheck({
 						type={showPassword ? "text" : "password"}
 						placeholder="Enter password"
 						onChange={(e) => setPassword(e.target.value)}
-						className={`w-full h-8 text-xs pr-10 ${error ? "border-red-500" : ""}`}
+						className={`w-full font-commitMono h-8 text-xs pr-10 ${error ? "border-red-500" : ""}`}
 						onKeyDown={(e) => {
 							if (e.key === "Enter") {
 								checkPassword();
