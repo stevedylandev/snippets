@@ -201,7 +201,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 								type={showPassword ? "text" : "password"}
 								placeholder="Password (optional)"
 								onChange={(e) => setPassword(e.target.value)}
-								className="w-full h-8 text-xs pr-10" // Added pr-10 for padding on the right
+								className="w-full font-commitMono h-8 text-xs pr-10" // Added pr-10 for padding on the right
 							/>
 							<button
 								type="button"
