@@ -9,7 +9,7 @@ import {
 	DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { InfoCircledIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 
@@ -38,15 +38,31 @@ export function Header() {
 						</p>
 					</div>
 				</div>
-				<DialogTrigger>
+				<div className="flex gap-4 items-center">
 					<Button
 						variant="outline"
 						className="h-7 w-7 flex items-center"
 						size="icon"
+						asChild
 					>
-						<InfoCircledIcon className="text-muted-foreground h-6 w-6" />
+						<Link
+							href="https://github.com/stevedylandev/snippets"
+							target="_blank"
+							rel="noreferrer"
+						>
+							<GitHubLogoIcon className="h-6 w-6" />
+						</Link>
 					</Button>
-				</DialogTrigger>
+					<DialogTrigger>
+						<Button
+							variant="outline"
+							className="h-7 w-7 flex items-center"
+							size="icon"
+						>
+							<InfoCircledIcon className="h-6 w-6" />
+						</Button>
+					</DialogTrigger>
+				</div>
 				<DialogContent className="sm:w-[750px] w-full max-h-screen overflow-y-scroll sm:py-6 py-12">
 					<DialogHeader className="mr-auto">
 						<DialogTitle>Clean and Simple Code Sharing</DialogTitle>
