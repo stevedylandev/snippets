@@ -53,13 +53,16 @@ export function Header() {
 					</DialogHeader>
 					<p>No ads, no fuss, just code</p>
 					<h3 className="font-semibold">API</h3>
-					<pre className="bg-secondary p-2 rounded-md sm:text-sm text-xs sm:text-nowrap text-wrap">
+					<pre className="bg-secondary overflow-scroll p-2 rounded-md sm:text-sm text-xs sm:text-nowrap text-wrap">
 						<code>{`curl --location 'https://www.snippets.so/api/upload' \\
           --header 'Content-Type: application/json' \\
           --data '{
             "content": "console.log(\\"hello world!\\")",
             "name": "hello.ts",
             "lang": "typescript"
+            "isPrivate: "true | false",
+            "expires": "number of seconds | 0 for no expiration",
+            "password": "password to be hashed | "(blank strings for no password)",
           }'`}</code>
 					</pre>
 					<p>List of supported languages</p>
