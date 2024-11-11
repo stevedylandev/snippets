@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { PinataSDK } from "pinata";
 import * as argon2 from "argon2";
-//const argon2 = require("argon2");
 
 const pinata = new PinataSDK({
 	pinataJwt: process.env.PINATA_JWT,
@@ -24,11 +23,6 @@ export async function POST(
 		const fileInfo = await pinata.files.list().cid(params.cid);
 		const file = fileInfo.files[0];
 
-		// Add logging to debug
-		console.log("Received password:", body.password);
-		console.log("Stored hash:", file.keyvalues.passwordHash);
-
-		// Ensure both password and hash are strings
 		const password = String(body.password);
 		const hash = String(file.keyvalues.passwordHash);
 
