@@ -35,6 +35,11 @@ export function ReadOnlyEditor({
 }: ReadOnlyEditorProps) {
 	const [copied, setCopied] = useState(false);
 
+	let url = shortUrl;
+	if (shortUrl === "") {
+		url = cid;
+	}
+
 	const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 	const languageExtension = useMemo(() => {
@@ -120,7 +125,7 @@ export function ReadOnlyEditor({
 							Share
 						</Button>
 					</DialogTrigger>
-					<ShareModal url={`https://snippets.so/snip/${shortUrl}`} />
+					<ShareModal url={`https://snippets.so/snip/${url}`} />
 				</div>
 			</Dialog>
 		</div>
