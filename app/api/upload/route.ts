@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { PinataSDK, type UploadResponse } from "pinata";
 const argon2 = require("argon2");
+import { nanoid } from "nanoid";
 
 const pinata = new PinataSDK({
 	pinataJwt: process.env.PINATA_JWT,
@@ -29,8 +30,16 @@ export async function POST(request: NextRequest) {
 				},
 			})
 			.group(body.isPrivate === "true" ? "" : process.env.GROUP_ID || "");
+
+		const updated = await pinata.files.update({
+			id: res.id,
+			keyvalues: {
+				shortUrl: nanoid(),
+			},
+		});
 		return NextResponse.json({
 			IpfsHash: res.cid,
+			shortUrl: updated.keyvalues.shortUrl,
 		});
 	} catch (error) {
 		console.log(error);

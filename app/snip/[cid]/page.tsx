@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 import { ReadOnlyEditor } from "@/components/read-only-editor";
-import { PinataSDK } from "pinata";
+import { type FileListResponse, PinataSDK } from "pinata";
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import { ProtectedContent } from "@/components/password-content";
 
@@ -11,6 +11,8 @@ interface SnippetData {
 	expires: string;
 	date: string;
 	passwordHash: string;
+	shortUrl: string;
+	cid: string;
 }
 
 const pinata = new PinataSDK({
@@ -18,9 +20,19 @@ const pinata = new PinataSDK({
 	pinataGateway: process.env.GATEWAY_DOMAIN,
 });
 
-async function fetchData(cid: string): Promise<SnippetData | Error> {
+async function fetchData(hash: string): Promise<SnippetData | Error> {
 	try {
-		const fileInfo = await pinata.files.list().cid(cid);
+		let fileInfo: FileListResponse;
+		let cid: string;
+		if (hash.startsWith("bafk") || hash.startsWith("Qm")) {
+			fileInfo = await pinata.files.list().cid(hash);
+			cid = hash;
+		} else {
+			fileInfo = await pinata.files.list().metadata({
+				shortUrl: hash,
+			});
+			cid = fileInfo.files[0].cid;
+		}
 		const file = fileInfo.files[0];
 		const { data: content, contentType } = await pinata.gateways.get(cid);
 		const creationDate = new Date(file.created_at);
@@ -36,6 +48,8 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 				expires: file.keyvalues.expires || "0",
 				date: file.created_at,
 				passwordHash: "",
+				shortUrl: "",
+				cid: cid,
 			};
 			console.log(res);
 			return res;
@@ -53,6 +67,8 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 			expires: file.keyvalues.expires || "0",
 			date: file.created_at,
 			passwordHash: file.keyvalues.passwordHash,
+			shortUrl: file.keyvalues.shortUrl,
+			cid: cid,
 		};
 		console.log(res);
 		return res;
@@ -63,8 +79,8 @@ async function fetchData(cid: string): Promise<SnippetData | Error> {
 }
 
 export default async function Page({ params }: { params: { cid: string } }) {
-	const cid = params.cid;
-	const data = await fetchData(cid);
+	const fileHash = params.cid;
+	const data = await fetchData(fileHash);
 	let hasExpired = false;
 	let futureDate: Date | undefined;
 
@@ -97,13 +113,19 @@ export default async function Page({ params }: { params: { cid: string } }) {
 				<ReadOnlyEditor
 					content={data.content}
 					name={data.name}
-					cid={cid}
+					cid={data.cid}
 					lang={data.lang}
 					futureDate={futureDate}
+					shortUrl={data.shortUrl}
 				/>
 			)}
 			{!hasExpired && isPasswordProtected && (
-				<ProtectedContent data={clientData} cid={cid} futureDate={futureDate} />
+				<ProtectedContent
+					data={clientData}
+					cid={data.cid}
+					futureDate={futureDate}
+					shortUrl={data.shortUrl}
+				/>
 			)}
 			{hasExpired && (
 				<div className="w-full min-h-96 flex flex-col justify-center items-center gap-4">

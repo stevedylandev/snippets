@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import { useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import { Button } from "./ui/button";
 import {
@@ -23,6 +22,7 @@ type ReadOnlyEditorProps = {
 	cid: string;
 	lang: LanguageName;
 	futureDate?: Date;
+	shortUrl?: string;
 };
 
 export function ReadOnlyEditor({
@@ -31,6 +31,7 @@ export function ReadOnlyEditor({
 	cid,
 	lang,
 	futureDate,
+	shortUrl,
 }: ReadOnlyEditorProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -119,7 +120,7 @@ export function ReadOnlyEditor({
 							Share
 						</Button>
 					</DialogTrigger>
-					<ShareModal url={`https://snippets.so/snip/${cid}`} />
+					<ShareModal url={`https://snippets.so/snip/${shortUrl}`} />
 				</div>
 			</Dialog>
 		</div>

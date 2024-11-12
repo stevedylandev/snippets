@@ -104,7 +104,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 			});
 			const res = await req.json();
 			setComplete(true);
-			router.push(`/snip/${res.IpfsHash}`);
+			router.push(`/snip/${res.shortUrl}`);
 		} catch (error) {
 			console.log(error);
 			setLoading(false);

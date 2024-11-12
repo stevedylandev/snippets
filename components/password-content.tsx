@@ -19,12 +19,14 @@ interface ProtectedContentProps {
 	data: SnippetData;
 	cid: string;
 	futureDate?: Date;
+	shortUrl?: string;
 }
 
 export function ProtectedContent({
 	data,
 	cid,
 	futureDate,
+	shortUrl,
 }: ProtectedContentProps) {
 	const [content, setContent] = useState(data.content);
 	const [isVerified, setIsVerified] = useState(!data.passwordHash);
@@ -51,6 +53,7 @@ export function ProtectedContent({
 			cid={cid}
 			lang={data.lang}
 			futureDate={futureDate}
+			shortUrl={shortUrl}
 		/>
 	);
 }
