@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 		const updated = await pinata.files.update({
 			id: res.id,
 			keyvalues: {
-				shortUrl: nanoid(),
+				shortUrl: nanoid(10),
 			},
 		});
 		return NextResponse.json({
