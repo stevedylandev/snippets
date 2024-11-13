@@ -22,7 +22,7 @@ type ReadOnlyEditorProps = {
 	cid: string;
 	lang: LanguageName;
 	futureDate?: Date;
-	shortUrl?: string;
+	slug?: string;
 };
 
 export function ReadOnlyEditor({
@@ -31,13 +31,13 @@ export function ReadOnlyEditor({
 	cid,
 	lang,
 	futureDate,
-	shortUrl,
+	slug,
 }: ReadOnlyEditorProps) {
 	const [copied, setCopied] = useState(false);
 
-	let url = shortUrl;
-	if (shortUrl === "") {
-		url = cid;
+	let fileSlug = slug;
+	if (slug === "") {
+		fileSlug = cid;
 	}
 
 	const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
@@ -125,7 +125,7 @@ export function ReadOnlyEditor({
 							Share
 						</Button>
 					</DialogTrigger>
-					<ShareModal url={`https://snippets.so/snip/${url}`} />
+					<ShareModal url={`https://snippets.so/snip/${slug}`} />
 				</div>
 			</Dialog>
 		</div>

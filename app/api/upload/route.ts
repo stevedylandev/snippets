@@ -34,12 +34,12 @@ export async function POST(request: NextRequest) {
 		const updated = await pinata.files.update({
 			id: res.id,
 			keyvalues: {
-				shortUrl: nanoid(10),
+				slug: nanoid(10),
 			},
 		});
 		return NextResponse.json({
 			IpfsHash: res.cid,
-			shortUrl: updated.keyvalues.shortUrl,
+			slug: updated.keyvalues.slug,
 		});
 	} catch (error) {
 		console.log(error);

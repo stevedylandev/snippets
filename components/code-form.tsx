@@ -104,7 +104,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 			});
 			const res = await req.json();
 			setComplete(true);
-			router.push(`/snip/${res.shortUrl}`);
+			router.push(`/snip/${res.slug}`);
 		} catch (error) {
 			console.log(error);
 			setLoading(false);

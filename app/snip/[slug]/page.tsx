@@ -11,7 +11,7 @@ interface SnippetData {
 	expires: string;
 	date: string;
 	passwordHash: string;
-	shortUrl: string;
+	slug: string;
 	cid: string;
 }
 
@@ -29,8 +29,9 @@ async function fetchData(hash: string): Promise<SnippetData | Error> {
 			cid = hash;
 		} else {
 			fileInfo = await pinata.files.list().metadata({
-				shortUrl: hash,
+				slug: hash,
 			});
+			console.log(fileInfo);
 			cid = fileInfo.files[0].cid;
 		}
 		const file = fileInfo.files[0];
@@ -48,7 +49,7 @@ async function fetchData(hash: string): Promise<SnippetData | Error> {
 				expires: file.keyvalues.expires || "0",
 				date: file.created_at,
 				passwordHash: "",
-				shortUrl: "",
+				slug: "",
 				cid: cid,
 			};
 			console.log(res);
@@ -67,7 +68,7 @@ async function fetchData(hash: string): Promise<SnippetData | Error> {
 			expires: file.keyvalues.expires || "0",
 			date: file.created_at,
 			passwordHash: file.keyvalues.passwordHash,
-			shortUrl: file.keyvalues.shortUrl,
+			slug: file.keyvalues.slug,
 			cid: cid,
 		};
 		console.log(res);
@@ -78,9 +79,9 @@ async function fetchData(hash: string): Promise<SnippetData | Error> {
 	}
 }
 
-export default async function Page({ params }: { params: { cid: string } }) {
-	const fileHash = params.cid;
-	const data = await fetchData(fileHash);
+export default async function Page({ params }: { params: { slug: string } }) {
+	const slug = params.slug;
+	const data = await fetchData(slug);
 	let hasExpired = false;
 	let futureDate: Date | undefined;
 
@@ -116,7 +117,7 @@ export default async function Page({ params }: { params: { cid: string } }) {
 					cid={data.cid}
 					lang={data.lang}
 					futureDate={futureDate}
-					shortUrl={data.shortUrl}
+					slug={data.slug}
 				/>
 			)}
 			{!hasExpired && isPasswordProtected && (
@@ -124,7 +125,7 @@ export default async function Page({ params }: { params: { cid: string } }) {
 					data={clientData}
 					cid={data.cid}
 					futureDate={futureDate}
-					shortUrl={data.shortUrl}
+					slug={data.slug}
 				/>
 			)}
 			{hasExpired && (
