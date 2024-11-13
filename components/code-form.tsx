@@ -161,7 +161,7 @@ export function CodeForm({ readOnly, content }: CodeFormProps) {
 					</Select>
 				</div>
 				<CodeMirror
-					className="text-md opacity-75 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px]"
+					className="text-md opacity-75 p-2 lg:w-[750px] sm:h-[700px] md:w-[600px] w-[350px] h-[450px]"
 					height="100%"
 					width="100%"
 					value={value}

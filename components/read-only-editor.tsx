@@ -82,7 +82,7 @@ export function ReadOnlyEditor({
 						</Button>
 					</div>
 					<CodeMirror
-						className="text-md opacity-75 p-2 sm:w-[600px] sm:h-[700px] w-[350px] h-[450px] font-commitMono"
+						className="text-md opacity-75 p-2 lg:w-[750px] md:w-[600px] sm:h-[700px] w-[350px] h-[450px] font-commitMono"
 						height="100%"
 						width="100%"
 						value={content}

@@ -15,7 +15,7 @@ import Image from "next/image";
 
 export function Header() {
 	return (
-		<div className="flex items-center justify-between mt-4 w-[350px] sm:w-[600px] mb-4">
+		<div className="flex items-center justify-between mt-4 w-[350px] md:w-[600px] lg:w-[750px] mb-4">
 			<Dialog>
 				<div className="flex flex-col justify-content items-start gap-0 text-sm mt-6">
 					<Link className="font-commitMono text-2xl font-bold" href="/">
