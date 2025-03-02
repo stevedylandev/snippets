@@ -106,6 +106,7 @@ export function ReadOnlyEditor({
   useEffect(() => {
     const load = async () => {
       sdk.actions.ready();
+      sdk.actions.addFrame()
     };
     if (sdk && !isSDKLoaded) {
       setIsSDKLoaded(true);
