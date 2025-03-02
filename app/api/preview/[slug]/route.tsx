@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server";
 import { PinataSDK } from "pinata";
 import { ImageResponse } from 'next/og';
-import { readFileSync } from 'fs';
-import path from 'path';
 
 const pinata = new PinataSDK({
   pinataJwt: process.env.PINATA_JWT,
@@ -10,6 +8,21 @@ const pinata = new PinataSDK({
 });
 
 export const runtime = 'edge';
+
+async function loadGoogleFont(font: string, text: string, weight = 400) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&text=${encodeURIComponent(text)}`
+  const css = await (await fetch(url)).text()
+  const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/)
+
+  if (resource) {
+    const response = await fetch(resource[1])
+    if (response.status == 200) {
+      return await response.arrayBuffer()
+    }
+  }
+
+  throw new Error('failed to load font data')
+}
 
 export async function GET(
   request: NextRequest,
@@ -59,16 +72,8 @@ export async function GET(
       ? "🔒 Password protected snippet"
       : lines.join('\n');
 
-    // Load CommitMono font
-    const commitMonoRegular = await fetch(
-      new URL('../../../CommitMono-400-Regular.otf', import.meta.url)
-    ).then((res) => res.arrayBuffer());
+    const text = "Snippets.so"
 
-    const commitMonoBold = await fetch(
-      new URL('../../../CommitMono-700-Regular.otf', import.meta.url)
-    ).then((res) => res.arrayBuffer());
-
-    // Create image
     return new ImageResponse(
       (
         <div
@@ -98,12 +103,12 @@ export async function GET(
           >
             <div
               style={{
-                fontFamily: 'CommitMono',
+                fontFamily: 'Space Mono',
                 fontSize: 42,
-                fontWeight: 'bold',
+                fontWeight: 700,
               }}
             >
-              Snippets.so
+              {text}
             </div>
           </div>
 
@@ -135,7 +140,6 @@ export async function GET(
                 style={{
                   display: 'flex',
                   fontSize: 18,
-                  fontWeight: 'medium',
                   color: '#101827',
                   backgroundColor: '#fff',
                   border: '1px solid #eaeaea',
@@ -146,7 +150,7 @@ export async function GET(
                   marginTop: 10,
                   marginLeft: 10,
                   height: 32,
-                  fontFamily: 'CommitMono',
+                  fontFamily: 'Space Mono',
                 }}
               >
                 {file.name || 'Untitled Snippet'}
@@ -160,7 +164,7 @@ export async function GET(
                 backgroundColor: '#ffffff',
                 color: '#24292e',
                 fontSize: 18,
-                fontFamily: 'CommitMono',
+                fontFamily: 'Space Mono',
                 overflow: 'hidden',
                 whiteSpace: 'pre',
                 opacity: '0.85',
@@ -181,16 +185,16 @@ export async function GET(
         height: 630,
         fonts: [
           {
-            name: 'CommitMono',
-            data: commitMonoRegular,
-            weight: 400,
+            name: 'Space Mono',
+            data: await loadGoogleFont('Space+Mono', text),
             style: 'normal',
+            weight: 400,
           },
           {
-            name: 'CommitMono',
-            data: commitMonoBold,
-            weight: 700,
+            name: 'Space Mono',
+            data: await loadGoogleFont('Space+Mono', text, 700),
             style: 'normal',
+            weight: 700
           },
         ],
       }
