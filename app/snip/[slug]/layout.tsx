@@ -57,7 +57,7 @@ export async function generateMetadata(
 
   const frame = {
     version: "next",
-    imageUrl: `https://snippets.so/og.png`,
+    imageUrl: `https://snippets.so/api/preview/${slug}`,
     button: {
       title: "Open Snippet",
       action: {
