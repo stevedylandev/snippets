@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@codemirror/lang-javascript": "^6.2.2",
+		"@farcaster/frame-sdk": "^0.0.29",
 		"@hookform/resolvers": "^3.6.0",
 		"@radix-ui/react-checkbox": "^1.1.1",
 		"@radix-ui/react-dialog": "^1.1.1",
