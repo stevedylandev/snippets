@@ -57,10 +57,38 @@ export function ReadOnlyEditor({
   }
 
   async function copyToClipboard() {
-    navigator.clipboard
-      .writeText(content)
-      .then(async () => await handleCopy())
-      .catch(() => alert("Failed to copy"));
+    try {
+      // Check if we have permission to use clipboard
+      if (navigator.clipboard && navigator.permissions) {
+        const permissionStatus = await navigator.permissions.query({ name: 'clipboard-write' as PermissionName });
+
+        if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
+          await navigator.clipboard.writeText(content);
+          await handleCopy();
+          return;
+        }
+      }
+
+      // Fallback method using execCommand (deprecated but works in more contexts)
+      const textArea = document.createElement('textarea');
+      textArea.value = content;
+      textArea.style.position = 'fixed';  // Avoid scrolling to bottom
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      if (successful) {
+        await handleCopy();
+      } else {
+        alert("Failed to copy: Your browser may be blocking clipboard access");
+      }
+    } catch (err) {
+      console.error("Copy failed:", err);
+      alert("Failed to copy: " + (err instanceof Error ? err.message : String(err)));
+    }
   }
 
   function downloadContent() {
