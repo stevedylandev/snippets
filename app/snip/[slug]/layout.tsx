@@ -74,22 +74,22 @@ export async function generateMetadata(
     title: snippetName,
     description: description,
     icons: {
-      apple: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
       shortcut: "/favicon.ico",
-      icon: "/favicon.ico",
+      icon: "/favicon-32z32.png",
     },
     openGraph: {
       title: snippetName,
       description: description,
       url: `https://snippets.so/snip/${slug}`,
       siteName: "Snippets.so",
-      images: ["https://www.snippets.so/og.png"],
+      images: [`https://www.snippets.so/api/preview/${slug}`],
     },
     twitter: {
       card: "summary_large_image",
       title: snippetName,
       description: description,
-      images: ["https://www.snippets.so/og.png"],
+      images: [`https://www.snippets.so/api/preview/${slug}`],
     },
     other: {
       "fc:frame": JSON.stringify(frame),

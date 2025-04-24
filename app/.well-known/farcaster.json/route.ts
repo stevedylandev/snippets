@@ -17,7 +17,20 @@ export async function GET() {
       imageUrl: `${appUrl}/og.png`,
       buttonTitle: "Share Snippet",
       splashImageUrl: `${appUrl}/icon.png`,
-      splashBackgroundColor: "#ffffff"
+      splashBackgroundColor: "#ffffff",
+      subtitle: "Clean and Simple Code Snippets",
+      description: "Quickly and easily share code snippets on Farcaster",
+      primaryCategory: "developer-tools",
+      tags: [
+        "developer-tools",
+        "code",
+        "snippets"
+      ],
+      heroImageUrl: "https://snippets.so/og.png",
+      tagline: "Clean and Simple Code Snippets",
+      ogTitle: "Snippets",
+      ogDescription: "Clean and Simple Code Snippers",
+      ogImageUrl: "https://snippets.so/og.png"
     },
   };
 

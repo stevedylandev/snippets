@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   title: "Snippets.so",
   description: "Clean and simple code sharing",
   icons: {
-    apple: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
     shortcut: "/favicon.ico",
-    icon: "/favicon.ico",
+    icon: "/favicon-32z32.png",
   },
   openGraph: {
     title: "Snippets.so",
